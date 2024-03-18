@@ -28,7 +28,7 @@ namespace FeedExpenseCalculator.Service.Controllers
         [Authorize(Policy = "ApiKey")]
         public JsonResult Get()
         {
-            decimal result = 0;
+            var result = _expenseCalculationRepository.GetAnimals();
             return new JsonResult(result);
         }
     }
