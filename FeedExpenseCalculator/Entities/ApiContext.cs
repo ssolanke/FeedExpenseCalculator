@@ -11,6 +11,6 @@ namespace FeedExpenseCalculator.Service.Entities
             optionsBuilder.UseInMemoryDatabase(databaseName: "FeedDb");
         }
         public DbSet<Animal> Animals { get; set; }
-        public DbSet<Food> Food { get; set; }
+        public DbSet<FoodPrice> FoodPrices { get; set; }
     }
 }

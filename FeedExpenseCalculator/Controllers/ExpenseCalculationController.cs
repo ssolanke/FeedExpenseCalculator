@@ -1,22 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FeedExpenseCalculator.Service.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace FeedExpenseCalculator.Service.Controllers
 {
     [ApiController]
-    [Route("[api/v1/FeedExpense]")]
+    [Route("api/v1/[controller]")]
     public class ExpenseCalculationController : ControllerBase
     {
-
         private readonly ILogger<ExpenseCalculationController> _logger;
         private readonly IExpenseCalculationRepository _expenseCalculationRepository;
-
 
         public ExpenseCalculationController(ILogger<ExpenseCalculationController> logger, IExpenseCalculationRepository expenseCalculationRepository)
         {
@@ -25,11 +19,19 @@ namespace FeedExpenseCalculator.Service.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "ApiKey")]
         public JsonResult Get()
         {
-            var result = _expenseCalculationRepository.GetAnimals();
-            return new JsonResult(result);
+            (bool, decimal) response = (false, 0); 
+            try
+            {
+                var result = _expenseCalculationRepository.GetPriceForOneDayForAllZooAnimals();
+                response = (true, result);
+            }
+            catch(Exception ex)
+            {
+                _logger.Log(LogLevel.Error, ex.Message);
+            }
+            return new JsonResult(response);
         }
     }
 }
