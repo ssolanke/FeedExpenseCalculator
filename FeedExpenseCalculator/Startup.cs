@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FeedExpenseCalculator.Service.Interfaces;
 using FeedExpenseCalculator.Service.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,6 +23,16 @@ namespace FeedExpenseCalculator
         {
             services.AddControllers();
             services.AddScoped<IExpenseCalculationRepository, ExpenseCalculationRepository>();
+            services.AddLogging(config =>
+            {
+                config.AddDebug();
+                config.AddConsole();
+                //etc
+            });
+
+            services.AddSingleton<ILoggerFactory, LoggerFactory>();
+            services.Add(ServiceDescriptor.Describe(typeof(ILogger<>), typeof(Logger<>), ServiceLifetime.Scoped));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

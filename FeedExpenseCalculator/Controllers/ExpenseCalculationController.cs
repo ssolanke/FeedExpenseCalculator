@@ -21,17 +21,16 @@ namespace FeedExpenseCalculator.Service.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            (bool, decimal) response = (false, 0); 
+            decimal result = 0;
             try
             {
-                var result = _expenseCalculationRepository.GetPriceForOneDayForAllZooAnimals();
-                response = (true, result);
+                result = _expenseCalculationRepository.GetPriceForOneDayForAllZooAnimals();
             }
             catch(Exception ex)
             {
                 _logger.Log(LogLevel.Error, ex.Message);
             }
-            return new JsonResult(response);
+            return new JsonResult(result);
         }
     }
 }
