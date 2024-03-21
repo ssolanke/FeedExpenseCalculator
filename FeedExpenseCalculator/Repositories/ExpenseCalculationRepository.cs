@@ -13,11 +13,8 @@ namespace FeedExpenseCalculator.Service.Repositories
 {
     public class ExpenseCalculationRepository : IExpenseCalculationRepository
     {
-        ILogger _logger;
-        public ExpenseCalculationRepository(ILogger logger)
+        public ExpenseCalculationRepository()
         {
-            _logger = logger;
-
             using (var context = new ApiContext())
             {
                 // create the in-memory data from text,csv and xml file
@@ -37,8 +34,6 @@ namespace FeedExpenseCalculator.Service.Repositories
         {
             decimal Total = 0;
             decimal oneDayPriceForAnAnimal = 0;
-                try
-            {
                 using (var context = new ApiContext())
                 {
                     var list = context.Animals.ToList();
@@ -82,11 +77,6 @@ namespace FeedExpenseCalculator.Service.Repositories
 
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(LogLevel.Error, ex.Message);
-            }
             return Total;
         }
     }
