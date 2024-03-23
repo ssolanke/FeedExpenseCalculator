@@ -2,6 +2,6 @@
 {
     public interface IExpenseCalculationRepository
     {
-        public decimal GetPriceForOneDayForAllZooAnimals();
+        public decimal GetPriceForOneDayForAllZooAnimals(string xmlDocumentText);
     }
 }

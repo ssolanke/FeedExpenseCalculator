@@ -19,18 +19,19 @@ namespace FeedExpenseCalculator.Service.Controllers
         }
 
         [HttpGet]
-        public JsonResult Get()
+        public IActionResult Get()
         {
-            decimal result = 0;
             try
             {
-                result = _expenseCalculationRepository.GetPriceForOneDayForAllZooAnimals();
+                var inputZooXmlFile = "DataFiles/zoo.xml";
+                var result = _expenseCalculationRepository.GetPriceForOneDayForAllZooAnimals(inputZooXmlFile);
+                return Ok(new JsonResult(result));
             }
             catch(Exception ex)
             {
                 _logger.Log(LogLevel.Error, ex.Message);
+                return BadRequest(ex.Message);
             }
-            return new JsonResult(result);
         }
     }
 }
