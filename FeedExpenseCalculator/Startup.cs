@@ -21,18 +21,9 @@ namespace FeedExpenseCalculator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddScoped<IExpenseCalculationRepository, ExpenseCalculationRepository>();
-            services.AddLogging(config =>
-            {
-                config.AddDebug();
-                config.AddConsole();
-                //etc
-            });
-
-            services.AddSingleton<ILoggerFactory, LoggerFactory>();
-            services.Add(ServiceDescriptor.Describe(typeof(ILogger<>), typeof(Logger<>), ServiceLifetime.Scoped));
-
+            services.AddCors();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +38,7 @@ namespace FeedExpenseCalculator
 
             app.UseRouting();
 
+            app.UseCors(c => c.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
