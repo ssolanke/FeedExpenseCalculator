@@ -71,7 +71,7 @@ namespace FeedExpenseCalculator.Service.Repositories
                     }
                 }
             }
-            return Math.Round(Total);
+            return Math.Round(Total,2);
         }
     }
 }
